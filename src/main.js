@@ -5,7 +5,7 @@ import {invalidateCloudfront} from './aws/cloudfront'
 
 async function deploy() {
     await syncToS3Bucket({
-        localSource: getInput('upload-dir', {required: true}),
+        localSource: getInput('build-directory', {required: true}),
         s3Bucket: getInput('s3-bucket-NAME', {required: true}),
         filesNotToBrowserCache: ['*.html'],
         browserCacheDuration: getIntInput('browser-cache-duration'),
