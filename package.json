@@ -15,7 +15,10 @@
   "keywords": [
     "GitHub",
     "Actions",
-    "JavaScript"
+    "JavaScript",
+    "S3",
+    "CloudFront",
+    "Static Site"
   ],
   "author": "GitHub",
   "license": "MIT",
@@ -24,7 +27,8 @@
   },
   "homepage": "https://github.com/actions/javascript-action#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1"
+    "@actions/core": "^1.1.1",
+    "@actions/exec": "^1.0.3"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",
