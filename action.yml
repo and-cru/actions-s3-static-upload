@@ -1,4 +1,4 @@
-name: 'Deploy Gatsby to AWS S3'
+name: 'Deploy static site AWS S3'
 description: 'Deploy a Gatsby Project to an AWS S3 bucket (optional Cloudfront support)'
 author: 'pedreviljooen'
 inputs:
