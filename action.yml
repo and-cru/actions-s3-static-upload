@@ -14,8 +14,6 @@ inputs:
   cdn-cache-duration:
     description: 'CDN cache duration (sec) for cache control headers (sec)'
     default: '31536000'
-  cloudfront-id-to-invalidate:
-    description: 'Cloudfront ID to invalidate'
 runs:
   using: 'node12'
   main: 'dist/index.js'
