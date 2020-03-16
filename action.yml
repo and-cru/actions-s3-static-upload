@@ -2,9 +2,6 @@ name: 'Deploy Gatsby to AWS S3'
 description: 'Deploy a Gatsby Project to an AWS S3 bucket (optional Cloudfront support)'
 author: 'pedreviljooen'
 inputs:
-  build-directory:
-    description: 'Your static site build directory'
-    required: true
   s3-bucket-name:
     description: 'Destination S3 Bucket'
     required: true
