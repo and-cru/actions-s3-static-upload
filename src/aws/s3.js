@@ -9,4 +9,6 @@ async function syncToS3Bucket({
   );
 }
 
-module.exports = syncToS3Bucket
+module.exports = {
+  syncToS3Bucket
+}

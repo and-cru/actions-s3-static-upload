@@ -8,4 +8,6 @@ async function wait (milliseconds) {
     });
 }
 
-module.exports = wait
+module.exports = {
+  wait
+}

@@ -16,4 +16,6 @@ async function runDeploy() {
     }
 }
 
-module.exports = runDeploy
+module.exports = {
+    runDeploy
+}
