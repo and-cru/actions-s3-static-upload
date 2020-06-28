@@ -946,11 +946,13 @@ module.exports = require("os");
 
 const core = __webpack_require__(470)
 const { runDeploy } = __webpack_require__(334)
+const { wait } = __webpack_require__(949)
 
 
 // most @actions toolkit packages have async methods
 async function run() {
   try{
+    await wait(500)
     core.info('Starting upload')
     await runDeploy()
     core.info('Finished upload')
@@ -1509,6 +1511,25 @@ module.exports = {
   syncToS3Bucket
 }
 
+
+/***/ }),
+
+/***/ 949:
+/***/ (function(module) {
+
+async function wait (milliseconds) {
+    return new Promise((resolve, reject) => {
+      if (typeof(milliseconds) !== 'number') { 
+        throw new Error('milleseconds not a number'); 
+      }
+  
+      setTimeout(() => resolve("done!"), milliseconds)
+    });
+}
+
+module.exports = {
+  wait
+}
 
 /***/ }),
 
