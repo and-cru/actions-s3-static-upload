@@ -1,22 +1,15 @@
 const core = require('@actions/core');
 const wait = require('./wait');
+const { runDeploy } = require('./src/main')
 
 
 // most @actions toolkit packages have async methods
 async function run() {
-  try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
-
-    core.debug((new Date()).toTimeString())
-    await wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
-
-    core.setOutput('time', new Date().toTimeString());
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
+  const ms = core.getInput('milliseconds')
+  await wait(ms)
+  core.info('Starting upload')
+  await runDeploy()
+  core.info('Finished upload')
 }
 
 run()

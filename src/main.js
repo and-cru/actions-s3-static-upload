@@ -1,4 +1,4 @@
-import {getInput, setFailed} from '@actions/core'
+import { getInput, setFailed } from '@actions/core'
 import {syncToS3Bucket} from './aws/s3'
 
 async function deploy() {
@@ -8,6 +8,10 @@ async function deploy() {
     })
 }
 
-deploy().catch(error => {
-    setFailed(error.message)
-})
+export async function runDeploy() {
+    try {
+        await deploy()
+    } catch (error) {
+        setFailed(error.message)
+    }
+}
