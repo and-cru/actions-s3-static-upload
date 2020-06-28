@@ -1,5 +1,5 @@
-const core = require('@actions/core')
-const syncToS3Bucket = require('./aws/s3')
+const {core} = require('@actions/core')
+const {syncToS3Bucket} = require('./aws/s3')
 
 async function deploy() {
     await syncToS3Bucket({

@@ -1,4 +1,4 @@
-const wait = require('./wait')
+const {wait} = require('./wait')
 
 test('throws invalid number', async() => {
     await expect(wait('foo')).rejects.toThrow('milleseconds not a number');

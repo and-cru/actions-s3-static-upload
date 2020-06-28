@@ -1,6 +1,6 @@
-const core = require('@actions/core')
-const wait = require('./wait')
-const runDeploy = require('./src/main')
+const {core} = require('@actions/core')
+const {wait} = require('./wait')
+const {runDeploy} = require('./src/main')
 
 
 // most @actions toolkit packages have async methods
