@@ -1,17 +1,18 @@
 const core = require('@actions/core')
+const exec = require('@actions/exec')
 
 async function deploy() {
     const localSource = './build/'
     const s3Bucket = core.getInput('s3-bucket-name')
-
-
-    try {
-        await exec(
-            `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
-        );
-    } catch (error) {
-        core.setFailed('Error with upload')
-    }  
+    return new Promise((resolve, reject) => {
+        try {
+            const cmd = `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
+            // execute
+            exec.exec(cmd, []).then(resolve('Success')).catch(err => reject(err.message))
+        } catch (error) {
+            core.setFailed('Error with upload')
+        }  
+    })
 }
 
 async function runDeploy() {
