@@ -945,11 +945,8 @@ module.exports = require("os");
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470)
-const { runDeploy } = __webpack_require__(334)
-const { wait } = __webpack_require__(949)
+const { runDeploy, wait } = __webpack_require__(334)
 
-
-// most @actions toolkit packages have async methods
 async function run() {
   try{
     await wait(500)
@@ -957,7 +954,7 @@ async function run() {
     await runDeploy()
     core.info('Finished upload')
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed('Error with workflow')
   }
 }
 
@@ -975,13 +972,20 @@ module.exports = require("child_process");
 /***/ 334:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const {core} = __webpack_require__(470)
-const {syncToS3Bucket} = __webpack_require__(807)
+const core = __webpack_require__(470)
+const exec = __webpack_require__(986)
 
 async function deploy() {
-    await syncToS3Bucket({
-        localSource: './build/',
-        s3Bucket: core.getInput('s3-bucket-name', {required: true})
+    const localSource = './build/'
+    const s3Bucket = core.getInput('s3-bucket-name')
+    return new Promise((resolve, reject) => {
+        try {
+            const cmd = `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
+            // execute
+            exec.exec(cmd, []).then(resolve('Success')).catch(err => reject(err.message))
+        } catch (error) {
+            core.setFailed('Error with upload')
+        }  
     })
 }
 
@@ -989,12 +993,23 @@ async function runDeploy() {
     try {
         await deploy()
     } catch (error) {
-        core.setFailed(error.message)
+        core.setFailed('Error with deploy')
     }
 }
 
+async function wait (milliseconds) {
+    return new Promise((resolve, reject) => {
+      if (typeof(milliseconds) !== 'number') { 
+        throw new Error('milleseconds not a number'); 
+      }
+  
+      setTimeout(() => resolve("done!"), milliseconds)
+    });
+}
+
 module.exports = {
-    runDeploy
+    runDeploy,
+    wait
 }
 
 /***/ }),
@@ -1490,46 +1505,6 @@ function isUnixExecutable(stats) {
 /***/ (function(module) {
 
 module.exports = require("fs");
-
-/***/ }),
-
-/***/ 807:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-const { exec } = __webpack_require__(986);
-
-async function syncToS3Bucket({
-  localSource,
-  s3Bucket
-}) {
-  await exec(
-    `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
-  );
-}
-
-module.exports = {
-  syncToS3Bucket
-}
-
-
-/***/ }),
-
-/***/ 949:
-/***/ (function(module) {
-
-async function wait (milliseconds) {
-    return new Promise((resolve, reject) => {
-      if (typeof(milliseconds) !== 'number') { 
-        throw new Error('milleseconds not a number'); 
-      }
-  
-      setTimeout(() => resolve("done!"), milliseconds)
-    });
-}
-
-module.exports = {
-  wait
-}
 
 /***/ }),
 
