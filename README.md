@@ -3,6 +3,8 @@
 > Uploads a build/ folder for static site to S3 bucket
 
 ![units-test](https://github.com/and-cru/andcru-s3-static-upload/workflows/units-test/badge.svg?branch=master)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+[![GitHub tag](https://img.shields.io/github/tag/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/tags/)
 
 ## Usage
 
