@@ -1,6 +1,6 @@
 import { getInput, info, setFailed } from '@actions/core'
-import wait from './wait'
-import runDeploy from './src/main'
+import { wait } from './wait'
+import { runDeploy } from './src/main'
 
 
 // most @actions toolkit packages have async methods
