@@ -11,7 +11,7 @@
 Example usage below
 
 ```yaml
-uses: and-cru/actions-s3-static-upload@v11
+uses: and-cru/actions-s3-static-upload@v12
 with:
   milliseconds: 500
   s3-bucket-name: <s3-bucket>
