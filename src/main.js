@@ -1,5 +1,5 @@
-import { getInput, setFailed } from '@actions/core'
-import { syncToS3Bucket } from './aws/s3'
+const { getInput, setFailed } = require('@actions/core')
+const { syncToS3Bucket } = require('./aws/s3')
 
 async function deploy() {
     await syncToS3Bucket({
@@ -8,10 +8,12 @@ async function deploy() {
     })
 }
 
-export default async function runDeploy() {
+async function runDeploy() {
     try {
         await deploy()
     } catch (error) {
         setFailed(error.message)
     }
 }
+
+module.exports = runDeploy

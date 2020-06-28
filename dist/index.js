@@ -36,8 +36,6 @@ module.exports =
 /******/ 		// Load entry module and return exports
 /******/ 		return __webpack_require__(104);
 /******/ 	};
-/******/ 	// initialize runtime
-/******/ 	runtime(__webpack_require__);
 /******/
 /******/ 	// run startup
 /******/ 	return startup();
@@ -936,6 +934,31 @@ class ExecState extends events.EventEmitter {
 
 /***/ }),
 
+/***/ 31:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+const { getInput, setFailed } = __webpack_require__(470)
+const { syncToS3Bucket } = __webpack_require__(807)
+
+async function deploy() {
+    await syncToS3Bucket({
+        localSource: './build/',
+        s3Bucket: getInput('s3-bucket-name', {required: true})
+    })
+}
+
+async function runDeploy() {
+    try {
+        await deploy()
+    } catch (error) {
+        setFailed(error.message)
+    }
+}
+
+module.exports = runDeploy
+
+/***/ }),
+
 /***/ 87:
 /***/ (function(module) {
 
@@ -946,22 +969,25 @@ module.exports = require("os");
 /***/ 104:
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
-const core = __webpack_require__(470);
-const wait = __webpack_require__(949);
-const { runDeploy } = __webpack_require__(813)
+const { getInput, info, setFailed } = __webpack_require__(470)
+const { wait } = __webpack_require__(949)
+const { runDeploy } = __webpack_require__(31)
 
 
 // most @actions toolkit packages have async methods
 async function run() {
-  const ms = core.getInput('milliseconds')
-  await wait(ms)
-  core.info('Starting upload')
-  await runDeploy()
-  core.info('Finished upload')
+  try{
+    const ms = getInput('milliseconds')
+    await wait(ms)
+    info('Starting upload')
+    await runDeploy()
+    info('Finished upload')
+  } catch (error) {
+    setFailed(error.message)
+  }
 }
 
 run()
-
 
 /***/ }),
 
@@ -1466,56 +1492,29 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 813:
-/***/ (function(__unusedmodule, __webpack_exports__, __webpack_require__) {
+/***/ 807:
+/***/ (function(module, __unusedexports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-var core = __webpack_require__(470);
-
-// EXTERNAL MODULE: ./node_modules/@actions/exec/lib/exec.js
-var exec = __webpack_require__(986);
-
-// CONCATENATED MODULE: ./src/aws/s3.js
-
+const { exec } = __webpack_require__(986);
 
 async function syncToS3Bucket({
   localSource,
   s3Bucket
 }) {
-  await Object(exec.exec)(
+  await exec(
     `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
   );
 }
 
-// CONCATENATED MODULE: ./src/main.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "runDeploy", function() { return runDeploy; });
+module.exports = syncToS3Bucket
 
-
-
-async function deploy() {
-    await syncToS3Bucket({
-        localSource: './build/',
-        s3Bucket: Object(core.getInput)('s3-bucket-name', {required: true})
-    })
-}
-
-async function runDeploy() {
-    try {
-        await deploy()
-    } catch (error) {
-        Object(core.setFailed)(error.message)
-    }
-}
 
 /***/ }),
 
 /***/ 949:
 /***/ (function(module) {
 
-let wait = function(milliseconds) {
+async function wait (milliseconds) {
     return new Promise((resolve, reject) => {
       if (typeof(milliseconds) !== 'number') { 
         throw new Error('milleseconds not a number'); 
@@ -1523,9 +1522,9 @@ let wait = function(milliseconds) {
   
       setTimeout(() => resolve("done!"), milliseconds)
     });
-  }
-  
-  module.exports = wait;
+}
+
+module.exports = wait
 
 /***/ }),
 
@@ -1573,62 +1572,4 @@ exports.exec = exec;
 
 /***/ })
 
-/******/ },
-/******/ function(__webpack_require__) { // webpackRuntimeModules
-/******/ 	"use strict";
-/******/ 
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getter */
-/******/ 	!function() {
-/******/ 		// define getter function for harmony exports
-/******/ 		var hasOwnProperty = Object.prototype.hasOwnProperty;
-/******/ 		__webpack_require__.d = function(exports, name, getter) {
-/******/ 			if(!hasOwnProperty.call(exports, name)) {
-/******/ 				Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 			}
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/create fake namespace object */
-/******/ 	!function() {
-/******/ 		// create a fake namespace object
-/******/ 		// mode & 1: value is a module id, require it
-/******/ 		// mode & 2: merge all properties of value into the ns
-/******/ 		// mode & 4: return value when already ns object
-/******/ 		// mode & 8|1: behave like require
-/******/ 		__webpack_require__.t = function(value, mode) {
-/******/ 			if(mode & 1) value = this(value);
-/******/ 			if(mode & 8) return value;
-/******/ 			if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 			var ns = Object.create(null);
-/******/ 			__webpack_require__.r(ns);
-/******/ 			Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 			if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 			return ns;
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				function getDefault() { return module['default']; } :
-/******/ 				function getModuleExports() { return module; };
-/******/ 			__webpack_require__.d(getter, 'a', getter);
-/******/ 			return getter;
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ }
-);
+/******/ });

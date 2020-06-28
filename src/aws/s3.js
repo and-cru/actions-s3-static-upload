@@ -1,6 +1,6 @@
-import { exec } from "@actions/exec";
+const { exec } = require("@actions/exec");
 
-export async function syncToS3Bucket({
+async function syncToS3Bucket({
   localSource,
   s3Bucket
 }) {
@@ -8,3 +8,5 @@ export async function syncToS3Bucket({
     `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
   );
 }
+
+module.exports = syncToS3Bucket
