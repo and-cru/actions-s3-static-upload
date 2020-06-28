@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint index.js",
     "package": "ncc build index.js -o dist",
-    "test": "echo \"No test specified\""
+    "test": "eslint index.js && jest"
   },
   "repository": {
     "type": "git",
