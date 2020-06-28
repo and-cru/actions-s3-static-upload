@@ -1,11 +1,12 @@
-const {core} = require('@actions/core')
-const {syncToS3Bucket} = require('./src/aws/s3')
+const core = require('@actions/core')
 
 async function deploy() {
-    await syncToS3Bucket({
-        localSource: './build/',
-        s3Bucket: core.getInput('s3-bucket-name', {required: true})
-    })
+    const localSource = './build/'
+    const s3Bucket = core.getInput('s3-bucket-name')
+
+    await exec(
+        `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
+    );
 }
 
 async function runDeploy() {
@@ -16,6 +17,17 @@ async function runDeploy() {
     }
 }
 
+async function wait (milliseconds) {
+    return new Promise((resolve, reject) => {
+      if (typeof(milliseconds) !== 'number') { 
+        throw new Error('milleseconds not a number'); 
+      }
+  
+      setTimeout(() => resolve("done!"), milliseconds)
+    });
+}
+
 module.exports = {
-    runDeploy
+    runDeploy,
+    wait
 }

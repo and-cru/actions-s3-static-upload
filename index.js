@@ -1,9 +1,6 @@
 const core = require('@actions/core')
-const { runDeploy } = require('./main')
-const { wait } = require('./wait')
+const { runDeploy, wait } = require('./main')
 
-
-// most @actions toolkit packages have async methods
 async function run() {
   try{
     await wait(500)
