@@ -5,6 +5,6 @@ export async function syncToS3Bucket({
   s3Bucket
 }) {
   await exec(
-    `aws s3 sync ${localSource} s3://${s3Bucket}`
+    `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
   );
 }
