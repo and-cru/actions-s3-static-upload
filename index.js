@@ -1,18 +1,18 @@
-const { getInput, info, setFailed } = require('@actions/core')
-const { wait } = require('./wait')
-const { runDeploy } = require('./src/main')
+const core = require('@actions/core')
+const wait = require('./wait')
+const runDeploy = require('./src/main')
 
 
 // most @actions toolkit packages have async methods
 async function run() {
   try{
-    const ms = getInput('milliseconds')
+    const ms = core.getInput('milliseconds')
     await wait(ms)
-    info('Starting upload')
+    core.info('Starting upload')
     await runDeploy()
-    info('Finished upload')
+    core.info('Finished upload')
   } catch (error) {
-    setFailed(error.message)
+    core.setFailed(error.message)
   }
 }
 
