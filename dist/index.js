@@ -974,10 +974,13 @@ module.exports = require("child_process");
 
 const core = __webpack_require__(470)
 const exec = __webpack_require__(986)
+const path = __webpack_require__(622)
 
 async function deploy() {
-    const localSource = './build/'
+    const folder = core.getInput('folder')
     const s3Bucket = core.getInput('s3-bucket-name')
+
+    const localSource = path.resolve(folder)
     return new Promise((resolve, reject) => {
         try {
             const cmd = `aws s3 sync ${localSource} s3://${s3Bucket} --delete`

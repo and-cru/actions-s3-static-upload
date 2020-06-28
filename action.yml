@@ -8,6 +8,9 @@ inputs:
   s3-bucket-name:
     description: 'Destination S3 Bucket'
     required: true
+  folder:
+    description: 'Build folder to upload'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
