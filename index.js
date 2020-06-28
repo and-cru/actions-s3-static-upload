@@ -8,7 +8,7 @@ async function run() {
     await runDeploy()
     core.info('Finished upload')
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed('Error with workflow')
   }
 }
 

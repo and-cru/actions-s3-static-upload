@@ -4,16 +4,21 @@ async function deploy() {
     const localSource = './build/'
     const s3Bucket = core.getInput('s3-bucket-name')
 
-    await exec(
-        `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
-    );
+
+    try {
+        await exec(
+            `aws s3 sync ${localSource} s3://${s3Bucket} --delete`
+        );
+    } catch (error) {
+        core.setFailed('Error with upload')
+    }  
 }
 
 async function runDeploy() {
     try {
         await deploy()
     } catch (error) {
-        core.setFailed(error.message)
+        core.setFailed('Error with deploy')
     }
 }
 
