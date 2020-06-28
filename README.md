@@ -9,7 +9,7 @@
 Example usage below
 
 ```yaml
-uses: and-cru/andcru-s3-static-upload@v10
+uses: and-cru/andcru-s3-static-upload@v11
 with:
   milliseconds: 500
   s3-bucket-name: <s3-bucket>
