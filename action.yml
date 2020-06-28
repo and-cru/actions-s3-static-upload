@@ -2,6 +2,9 @@ name: 'Deploy static site AWS S3'
 description: 'Deploy a React Project to an AWS S3 bucket'
 author: 'pedreviljooen'
 inputs:
+  milliseconds:
+    description: 'Small pause time'
+    required: false
   s3-bucket-name:
     description: 'Destination S3 Bucket'
     required: true
