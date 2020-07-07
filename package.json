@@ -24,7 +24,7 @@
   "license": "MIT",
   "homepage": "https://github.com/and-cru/aws-s3-cloudfront-site#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1",
+    "@actions/core": "^1.2.4",
     "@actions/exec": "^1.0.3"
   },
   "devDependencies": {
