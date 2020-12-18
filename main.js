@@ -9,7 +9,7 @@ async function deploy() {
 
     try {
         await exec.exec(`aws s3 sync ${localSource} s3://${s3Bucket} --delete --cache-control 'public, no-store, max-age=0'`, [])
-        await exec.exec(`aws s3 cp s3://${s3Bucket}/static s3://${s3Bucket}/static --metadata-directive REPLACE --cache-control 'public, max-age=31536000, immutable' --acl public-read`, []) 
+        await exec.exec(`aws s3 cp s3://${s3Bucket}/static s3://${s3Bucket}/static --metadata-directive REPLACE --cache-control 'public, max-age=31536000, immutable'`, []) 
     } catch(error) {
         core.setFailed('Error with upload')
     }
